@@ -1,6 +1,6 @@
 import React from "react";
 
-type TPageNotFoundProps = {};
+type TPageNotFoundProps = any;
 
 const PageNotFound: React.FC<TPageNotFoundProps> = () => (
   <div>

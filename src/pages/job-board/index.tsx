@@ -1,6 +1,6 @@
 import React from "react";
 
-type TJobBoardPageProps = {};
+type TJobBoardPageProps = any;
 
 const JobBoardPage: React.FC<TJobBoardPageProps> = () => (
   <div>

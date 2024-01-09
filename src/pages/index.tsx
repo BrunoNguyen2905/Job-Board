@@ -1,6 +1,6 @@
 import React from "react";
 
-type THomePageProps = {};
+type THomePageProps = any;
 
 const HomePage: React.FC<THomePageProps> = () => (
   <div>
