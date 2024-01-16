@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "global-text": "rgb(245, 246, 250)",
+      },
+    },
   },
   plugins: [],
 };

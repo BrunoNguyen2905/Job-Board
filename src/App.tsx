@@ -6,7 +6,7 @@ import PageNotFound from "./pages/not-found";
 
 function App() {
   return (
-    <div className="text-3xl font-bold underline">
+    <div className="text-3xl font-bold bg-[#323242] text-global-text">
       Job board App
       <BrowserRouter>
         <Routes>
