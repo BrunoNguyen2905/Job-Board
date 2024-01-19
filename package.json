@@ -2,6 +2,7 @@
   "name": "job-board",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://brunonguyen2905.github.io/Job-Board/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
