@@ -1,6 +1,6 @@
+import React, { useRef, useEffect, useState, ReactNode } from "react";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useRef, useEffect, useState, ReactNode } from "react";
 
 export type TextInputProps = {
   label?: string;

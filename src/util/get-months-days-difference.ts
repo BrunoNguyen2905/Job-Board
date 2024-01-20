@@ -4,7 +4,8 @@ export default function getMonthsDaysDifference(
 ) {
   const difference = endDate.getTime() - startDate.getTime();
   const differentDays = Math.ceil(difference / (1000 * 3600 * 24));
-  if (differentDays < 30) return `${differentDays}d`;
+  if (differentDays === 0) return `today`;
+  else if (differentDays < 30) return `${differentDays}d`;
   else if (differentDays <= 365)
     return `${
       endDate.getMonth() -
@@ -13,6 +14,6 @@ export default function getMonthsDaysDifference(
     }mo`;
   else
     return `${Math.abs(
-      Math.round(difference / 1000 / (60 * 60 * 24) / 365.25),
+      Math.round(difference / (1000 * 3600 * 24) / 365.25),
     )}yr`;
 }
