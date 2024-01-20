@@ -4,7 +4,9 @@ import useJobsSearchApiRequest from "../api-requests/search-jobs";
 import JobItem from "./job-item";
 import { TextInput } from "./text-input";
 
-const JobSearch = () => {
+type TJobSearchProps = any;
+
+const JobSearch: React.FC<TJobSearchProps> = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
 
