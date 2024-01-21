@@ -19,6 +19,7 @@ type TJobItemProps = {
       display_name: string;
     };
     contract_time: string;
+    contract_type: string;
     salary_max: number;
     salary_min: number;
     redirect_url: string;
@@ -31,9 +32,10 @@ type TJobItemProps = {
 };
 
 const JobItem: React.FC<TJobItemProps> = ({ job }) => {
-  const jobTags: string[] = [
+  const jobTags: (string | null)[] = [
     `${job?.contract_time ? job?.contract_time : null}`,
     `${job.category.tag ? job.category.tag : null}`,
+    `${job.contract_type ? job.contract_type : null}`,
   ];
   const jobCreatedDate = getMonthsDaysDifference(
     new Date(job.created),
@@ -46,7 +48,7 @@ const JobItem: React.FC<TJobItemProps> = ({ job }) => {
       <ul className="my-2">
         {!!jobTags?.length &&
           jobTags
-            ?.filter((tag) => tag !== "null")
+            ?.filter((tag) => tag !== null)
             .map((tag, index) => (
               <li
                 key={index}
