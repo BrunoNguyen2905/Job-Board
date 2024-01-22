@@ -1,12 +1,12 @@
 import useSWR from "swr";
 import fetcher from "../util/fetcher";
 
-export default function useJobsSearchApiRequest(
+export default function useAdzunaJobsSearchApiRequest(
   searchTerm: string,
   countryCode: string,
   jobType?: string,
   employmentType?: string,
-  dayPosted?: number,
+  dayPosted?: number
 ) {
   return useSWR(
     searchTerm
@@ -28,6 +28,6 @@ export default function useJobsSearchApiRequest(
               : ""
         }`
       : null,
-    fetcher,
+    fetcher
   );
 }
