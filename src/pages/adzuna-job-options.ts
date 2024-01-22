@@ -23,3 +23,9 @@ export const employmentTypeOptions = [
   { value: "permanent", label: "Permanent" },
   { value: "contract", label: "Contract" },
 ];
+export const dayPostedOptions = [
+  { value: 1, label: "A day ago" },
+  { value: 7, label: "A week ago" },
+  { value: 30, label: "A month ago" },
+
+];

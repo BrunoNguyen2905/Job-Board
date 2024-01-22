@@ -6,6 +6,7 @@ export default function useJobsSearchApiRequest(
   countryCode: string,
   jobType?: string,
   employmentType?: string,
+  dayPosted?: number,
 ) {
   return useSWR(
     searchTerm
@@ -13,7 +14,7 @@ export default function useJobsSearchApiRequest(
           process.env.REACT_APP_ADZUNA_APP_ID
         }&app_key=${
           process.env.REACT_APP_ADZUNA_APP_KEY
-        }&results_per_page=20&what=${searchTerm}&content-type=application/json&max_days_old=1${
+        }&results_per_page=20&what=${searchTerm}&content-type=application/json&max_days_old=${dayPosted}${
           jobType === "full_time"
             ? "&full_time=1"
             : jobType === "part_time"

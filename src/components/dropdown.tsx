@@ -2,7 +2,7 @@ import React, { Ref } from "react";
 import Select from "react-select";
 
 export interface DropdownOption {
-  value: string;
+  value: string | number;
   label: string;
 }
 

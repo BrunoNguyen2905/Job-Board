@@ -3,6 +3,7 @@ import { useDebounce } from "use-debounce";
 import useJobsSearchApiRequest from "../api-requests/search-jobs";
 import {
   countryOptions,
+  dayPostedOptions,
   employmentTypeOptions,
   jobTypeOptions,
 } from "../pages/adzuna-job-options";
@@ -20,6 +21,9 @@ const JobSearch: React.FC<TJobSearchProps> = () => {
   const [jobTypeSelected, setJobTypeSelected] = useState<DropdownOption | null>(
     jobTypeOptions[0],
   );
+
+  const [dayPostedSelected, setDatePostedSelected] =
+    useState<DropdownOption | null>(dayPostedOptions[0]);
   const [employmentTypeSelected, setEmploymentTypeSelected] =
     useState<DropdownOption | null>(employmentTypeOptions[0]);
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
@@ -29,6 +33,7 @@ const JobSearch: React.FC<TJobSearchProps> = () => {
     employmentTypeSelected?.value,
     300,
   );
+  const [debouncedDayPosted] = useDebounce(dayPostedSelected?.value, 300);
 
   const {
     data: jobSearchRes,
@@ -36,9 +41,10 @@ const JobSearch: React.FC<TJobSearchProps> = () => {
     isLoading,
   } = useJobsSearchApiRequest(
     debouncedSearchTerm,
-    debouncedCountryCode!,
-    debouncedJobType!,
-    debouncedEmploymentType!,
+    String(debouncedCountryCode),
+    String(debouncedJobType),
+    String(debouncedEmploymentType),
+    Number(debouncedDayPosted),
   );
   console.log("jobSearchRes", jobSearchRes);
 
@@ -79,6 +85,13 @@ const JobSearch: React.FC<TJobSearchProps> = () => {
             selection={employmentTypeSelected}
             options={employmentTypeOptions}
             onChange={setEmploymentTypeSelected}
+          />
+          <Dropdown
+            label={"Last Posted"}
+            name={"datePosted"}
+            selection={dayPostedSelected}
+            options={dayPostedOptions}
+            onChange={setDatePostedSelected}
           />
         </div>
       )}
