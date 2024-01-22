@@ -4,5 +4,5 @@
 
 * {
   box-sizing: border-box;
-  @apply bg-[#323242] text-global-text;
+  @apply bg-[#323242] text-global-text font-['Calibre-R'];
 }
