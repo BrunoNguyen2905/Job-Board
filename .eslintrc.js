@@ -26,7 +26,7 @@ module.exports = {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "no-undef": "off",
   },
   settings: {
