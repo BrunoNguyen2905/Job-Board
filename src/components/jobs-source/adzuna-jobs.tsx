@@ -106,7 +106,9 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
         ) : !jobSearchRes?.results?.length && jobSearchRes !== undefined ? (
           <p>No results found</p>
         ) : error ? (
-          <p className="text-red">{error}</p>
+          <p className="text-red">
+            There is something wrong when fetching the jobs
+          </p>
         ) : (
           <></>
         )}
