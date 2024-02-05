@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
 import useJobsSearchApiRequest from "../../api-requests/adzuna-search-jobs";
+import useFindWorkJobsSearchApiRequest from "../../api-requests/findwork-search-jobs";
 import {
   countryOptions,
   dayPostedOptions,
@@ -11,43 +12,35 @@ import Dropdown, { DropdownOption } from "../dropdown";
 import JobItem from "../job-item";
 import { TextInput } from "../text-input";
 
-type TJobSearchProps = any;
+type TFindWorkJobSearchProps = any;
 
-const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
+const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [countrySelected, setCountrySelected] = useState<DropdownOption | null>(
-    countryOptions[0]
-  );
-  const [jobTypeSelected, setJobTypeSelected] = useState<DropdownOption | null>(
-    jobTypeOptions[0]
-  );
+  // const [countrySelected, setCountrySelected] = useState<DropdownOption | null>(
+  //   countryOptions[0]
+  // );
+  // const [jobTypeSelected, setJobTypeSelected] = useState<DropdownOption | null>(
+  //   jobTypeOptions[0]
+  // );
 
-  const [dayPostedSelected, setDatePostedSelected] =
-    useState<DropdownOption | null>(dayPostedOptions[0]);
-  const [employmentTypeSelected, setEmploymentTypeSelected] =
-    useState<DropdownOption | null>(employmentTypeOptions[0]);
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
-  const [debouncedCountryCode] = useDebounce(countrySelected?.value, 300);
-  const [debouncedJobType] = useDebounce(jobTypeSelected?.value, 300);
-  const [debouncedEmploymentType] = useDebounce(
-    employmentTypeSelected?.value,
-    300
-  );
-  const [debouncedDayPosted] = useDebounce(dayPostedSelected?.value, 300);
+  // const [dayPostedSelected, setDatePostedSelected] =
+  //   useState<DropdownOption | null>(dayPostedOptions[0]);
+  // const [employmentTypeSelected, setEmploymentTypeSelected] =
+  //   useState<DropdownOption | null>(employmentTypeOptions[0]);
+  const [debouncedSearchTerm] = useDebounce(searchTerm, 500);
+  // const [debouncedCountryCode] = useDebounce(countrySelected?.value, 300);
+  // const [debouncedJobType] = useDebounce(jobTypeSelected?.value, 300);
+  // const [debouncedEmploymentType] = useDebounce(
+  //   employmentTypeSelected?.value,
+  //   300
+  // );
+  // const [debouncedDayPosted] = useDebounce(dayPostedSelected?.value, 300);
 
   const {
     data: jobSearchRes,
     error,
     isLoading,
-  } = useJobsSearchApiRequest(
-    debouncedSearchTerm,
-    String(debouncedCountryCode),
-    String(debouncedJobType),
-    String(debouncedEmploymentType),
-    Number(debouncedDayPosted)
-  );
-  console.log("jobSearchRes", jobSearchRes);
-
+  } = useFindWorkJobsSearchApiRequest(debouncedSearchTerm);
   return (
     <div className="z-10 flex flex-col">
       <div className="w-full">
@@ -64,7 +57,7 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
       </div>
       {!!searchTerm && (
         <div className="flex flex-row justify-around">
-          <Dropdown
+          {/* <Dropdown
             label={"Country Code"}
             name={"countryCode"}
             selection={countrySelected}
@@ -91,36 +84,36 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
             selection={dayPostedSelected}
             options={dayPostedOptions}
             onChange={setDatePostedSelected}
-          />
+          /> */}
         </div>
       )}
       <div className="flex flex-col md:flex-row md:flex-wrap md:justify-between">
         {isLoading ? (
           <p>Loading...</p>
-        ) : jobSearchRes?.results?.length ? (
-          jobSearchRes?.results?.map((job: any) => {
+        ) : jobSearchRes?.result?.results?.length ? (
+          jobSearchRes?.result?.results?.map((job: any) => {
             const jobTags: (string | null)[] = [
-              `${job?.contract_time ? job?.contract_time : null}`,
-              `${job.category.tag ? job.category.tag : null}`,
-              `${job.contract_type ? job.contract_type : null}`,
-            ];
+              `${job?.employment_type ? job?.employment_type : null}`,
+              `${job?.remote ? "Remote" : null}`,
+            ].concat(job?.keywords);
             return (
               <div className="w-full md:w-1/2 p-4" key={job?.id}>
                 <JobItem
-                  title={job?.title}
+                  title={job?.role}
                   description={job?.description}
-                  locationName={job?.location?.display_name}
-                  companyName={job?.company?.display_name}
+                  locationName={job?.location}
+                  companyName={job?.company_name}
                   salaryMax={job?.salary_max}
                   salaryMin={job?.salary_min}
-                  redirectUrl={job?.redirect_url}
-                  created={job?.created}
+                  redirectUrl={job?.url}
+                  created={job?.date_posted}
                   jobTags={jobTags}
                 />
               </div>
             );
           })
-        ) : !jobSearchRes?.results?.length && jobSearchRes !== undefined ? (
+        ) : // <></>
+        !jobSearchRes?.result?.results?.length && jobSearchRes !== undefined ? (
           <p>No results found</p>
         ) : error ? (
           <p className="text-red">
@@ -134,4 +127,4 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
   );
 };
 
-export default AdzunaJobSearch;
+export default FindWorkJobSearch;

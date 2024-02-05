@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import AdzunaJobSearch from "./jobs-source/adzuna-jobs";
+import FindWorkJobSearch from "./jobs-source/find-work-jobs";
 import TabBar from "./tab-bar";
 
 type TJobSearchProps = any;
@@ -12,7 +13,7 @@ const JobSearch: React.FC<TJobSearchProps> = () => {
   };
 
   const navigationTabs = useMemo(
-    () => [{ label: "Adzuna" }, { label: "Remotive" }, { label: "CareerJet" }],
+    () => [{ label: "Adzuna" }, { label: "Find Work" }, { label: "CareerJet" }],
     []
   );
   return (
@@ -27,7 +28,7 @@ const JobSearch: React.FC<TJobSearchProps> = () => {
         {selectedTabIndex === 0 ? (
           <AdzunaJobSearch />
         ) : selectedTabIndex === 1 ? (
-          <div>Remotive Jobs</div>
+          <FindWorkJobSearch />
         ) : (
           <div>CareerJet</div>
         )}
