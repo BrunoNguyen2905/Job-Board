@@ -18,6 +18,7 @@ type TJobItemProps = {
   redirectUrl: string;
   created: Date;
   jobTags: (string | null)[];
+  imgUrl?: string;
 };
 
 const JobItem: React.FC<TJobItemProps> = ({
@@ -30,6 +31,7 @@ const JobItem: React.FC<TJobItemProps> = ({
   redirectUrl,
   created,
   jobTags,
+  imgUrl,
 }) => {
   const jobCreatedDate = getMonthsDaysDifference(new Date(created), new Date());
   return (
@@ -74,7 +76,10 @@ const JobItem: React.FC<TJobItemProps> = ({
       <div className="mt-2 flex flex-col justify-between md:flex-row">
         <div className="flex items-start">
           <div className="mt-2">
-            <div className="w-8 h-8 bg-gray-300 rounded-full bg-cover bg-center bg-no-repeat cursor-pointer"></div>
+            <img
+              className="w-8 h-8 bg-gray-300 rounded-full bg-cover bg-center bg-no-repeat cursor-pointer"
+              src={imgUrl}
+            />
           </div>
           <div className="ml-2 mt-4">
             <h3 className="text-xs font-medium mb-1">

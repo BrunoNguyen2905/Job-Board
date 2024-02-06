@@ -108,6 +108,7 @@ const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
                   redirectUrl={job?.url}
                   created={job?.date_posted}
                   jobTags={jobTags}
+                  imgUrl={job?.logo}
                 />
               </div>
             );

@@ -63,35 +63,38 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
         />
       </div>
       {!!searchTerm && (
-        <div className="flex flex-row justify-around">
-          <Dropdown
-            label={"Country Code"}
-            name={"countryCode"}
-            selection={countrySelected}
-            options={countryOptions}
-            onChange={setCountrySelected}
-          />
-          <Dropdown
-            label={"Job Type"}
-            name={"jobType"}
-            selection={jobTypeSelected}
-            options={jobTypeOptions}
-            onChange={setJobTypeSelected}
-          />
-          <Dropdown
-            label={"Employment Type"}
-            name={"employmentType"}
-            selection={employmentTypeSelected}
-            options={employmentTypeOptions}
-            onChange={setEmploymentTypeSelected}
-          />
-          <Dropdown
-            label={"Last Posted"}
-            name={"datePosted"}
-            selection={dayPostedSelected}
-            options={dayPostedOptions}
-            onChange={setDatePostedSelected}
-          />
+        <div className="w-full">
+          <h1>Advanced filters:</h1>
+          <div className="flex flex-row justify-around">
+            <Dropdown
+              label={"Country Code"}
+              name={"countryCode"}
+              selection={countrySelected}
+              options={countryOptions}
+              onChange={setCountrySelected}
+            />
+            <Dropdown
+              label={"Job Type"}
+              name={"jobType"}
+              selection={jobTypeSelected}
+              options={jobTypeOptions}
+              onChange={setJobTypeSelected}
+            />
+            <Dropdown
+              label={"Employment Type"}
+              name={"employmentType"}
+              selection={employmentTypeSelected}
+              options={employmentTypeOptions}
+              onChange={setEmploymentTypeSelected}
+            />
+            <Dropdown
+              label={"Last Posted"}
+              name={"datePosted"}
+              selection={dayPostedSelected}
+              options={dayPostedOptions}
+              onChange={setDatePostedSelected}
+            />
+          </div>
         </div>
       )}
       <div className="flex flex-col md:flex-row md:flex-wrap md:justify-between">
