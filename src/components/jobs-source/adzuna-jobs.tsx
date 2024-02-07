@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { useDebounce } from "use-debounce";
 import useJobsSearchApiRequest from "../../api-requests/adzuna-search-jobs";
 import {
@@ -9,8 +8,8 @@ import {
   jobTypeOptions,
 } from "../../util/adzuna-job-options";
 import Dropdown, { DropdownOption } from "../dropdown";
-import JobItem from "../job-item";
 import JobLists from "../job-lists";
+import PaginationControl from "../paginated-items";
 import { TextInput } from "../text-input";
 
 type TJobSearchProps = any;
@@ -63,7 +62,7 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
       ? Math.ceil(jobSearchRes?.count / itemsPerPage)
       : 0;
   }, [jobSearchRes]);
-  const handlePageClick = (event: any) => {
+  const handlePageClick = (event: { selected: number }) => {
     setSearchPage(() => event.selected + 1);
   };
 
@@ -139,16 +138,9 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
           })}
           error={error}
         />
-        <ReactPaginate
-          containerClassName="flex w-full justify-around"
-          activeClassName="rounded-full bg-green-200"
-          breakLabel="..."
-          nextLabel="next >"
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={5}
+        <PaginationControl
+          handlePageClick={handlePageClick}
           pageCount={pageCount}
-          previousLabel="< previous"
-          renderOnZeroPageCount={null}
         />
       </div>
     </div>

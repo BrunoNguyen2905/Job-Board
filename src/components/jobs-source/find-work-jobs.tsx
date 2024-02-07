@@ -11,12 +11,15 @@ import {
 import Dropdown, { DropdownOption } from "../dropdown";
 import JobItem from "../job-item";
 import JobLists from "../job-lists";
+import PaginationControl from "../paginated-items";
 import { TextInput } from "../text-input";
 
 type TFindWorkJobSearchProps = any;
 
 const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchPage, setSearchPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(100);
   // const [countrySelected, setCountrySelected] = useState<DropdownOption | null>(
   //   countryOptions[0]
   // );
@@ -41,7 +44,18 @@ const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
     data: jobSearchRes,
     error,
     isLoading,
-  } = useFindWorkJobsSearchApiRequest(debouncedSearchTerm);
+  } = useFindWorkJobsSearchApiRequest(debouncedSearchTerm, searchPage);
+  //pagination
+  const pageCount = useMemo(() => {
+    return jobSearchRes?.result?.count
+      ? Math.ceil(jobSearchRes?.result?.count / itemsPerPage)
+      : 0;
+  }, [jobSearchRes]);
+
+  const handlePageClick = (event: { selected: number }) => {
+    setSearchPage(() => event.selected + 1);
+  };
+
   return (
     <div className="z-10 flex flex-col">
       <div className="w-full">
@@ -89,41 +103,6 @@ const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
         </div>
       )}
       <div className="flex flex-col md:flex-row md:flex-wrap md:justify-between">
-        {/* {isLoading ? (
-          <p>Loading...</p>
-        ) : jobSearchRes?.result?.results?.length ? (
-          jobSearchRes?.result?.results?.map((job: any) => {
-            const jobTags: (string | null)[] = [
-              `${job?.employment_type ? job?.employment_type : null}`,
-              `${job?.remote ? "Remote" : null}`,
-            ].concat(job?.keywords);
-            return (
-              <div className="w-full md:w-1/2 p-4" key={job?.id}>
-                <JobItem
-                  title={job?.role}
-                  description={job?.description}
-                  locationName={job?.location}
-                  companyName={job?.company_name}
-                  salaryMax={job?.salary_max}
-                  salaryMin={job?.salary_min}
-                  redirectUrl={job?.url}
-                  created={job?.date_posted}
-                  jobTags={jobTags}
-                  imgUrl={job?.logo}
-                />
-              </div>
-            );
-          })
-        ) :
-        !jobSearchRes?.result?.results?.length && jobSearchRes !== undefined ? (
-          <p>No results found</p>
-        ) : error ? (
-          <p className="text-red">
-            There is something wrong when fetching the jobs
-          </p>
-        ) : (
-          <></>
-        )} */}
         <JobLists
           isLoading={isLoading}
           items={jobSearchRes?.result?.results?.map((job: any) => {
@@ -141,10 +120,14 @@ const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
               redirectUrl: job?.url,
               created: job?.date_posted,
               jobTags,
-              imgUrl: job?.logo
+              imgUrl: job?.logo,
             };
           })}
           error={error}
+        />
+        <PaginationControl
+          handlePageClick={handlePageClick}
+          pageCount={pageCount}
         />
       </div>
     </div>
