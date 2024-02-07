@@ -10,6 +10,7 @@ import {
 } from "../../util/adzuna-job-options";
 import Dropdown, { DropdownOption } from "../dropdown";
 import JobItem from "../job-item";
+import JobLists from "../job-lists";
 import { TextInput } from "../text-input";
 
 type TFindWorkJobSearchProps = any;
@@ -88,7 +89,7 @@ const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
         </div>
       )}
       <div className="flex flex-col md:flex-row md:flex-wrap md:justify-between">
-        {isLoading ? (
+        {/* {isLoading ? (
           <p>Loading...</p>
         ) : jobSearchRes?.result?.results?.length ? (
           jobSearchRes?.result?.results?.map((job: any) => {
@@ -113,7 +114,7 @@ const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
               </div>
             );
           })
-        ) : // <></>
+        ) :
         !jobSearchRes?.result?.results?.length && jobSearchRes !== undefined ? (
           <p>No results found</p>
         ) : error ? (
@@ -122,7 +123,29 @@ const FindWorkJobSearch: React.FC<TFindWorkJobSearchProps> = () => {
           </p>
         ) : (
           <></>
-        )}
+        )} */}
+        <JobLists
+          isLoading={isLoading}
+          items={jobSearchRes?.result?.results?.map((job: any) => {
+            const jobTags: (string | null)[] = [
+              `${job?.employment_type ? job?.employment_type : null}`,
+              `${job?.remote ? "Remote" : null}`,
+            ].concat(job?.keywords);
+            return {
+              title: job?.role,
+              htmlDescriptionContent: job?.text,
+              locationName: job?.location,
+              companyName: job?.company_name,
+              salaryMax: job?.salary_max,
+              salaryMin: job?.salary_min,
+              redirectUrl: job?.url,
+              created: job?.date_posted,
+              jobTags,
+              imgUrl: job?.logo
+            };
+          })}
+          error={error}
+        />
       </div>
     </div>
   );

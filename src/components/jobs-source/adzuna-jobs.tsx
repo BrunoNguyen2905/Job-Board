@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { useDebounce } from "use-debounce";
 import useJobsSearchApiRequest from "../../api-requests/adzuna-search-jobs";
 import {
@@ -9,12 +10,16 @@ import {
 } from "../../util/adzuna-job-options";
 import Dropdown, { DropdownOption } from "../dropdown";
 import JobItem from "../job-item";
+import JobLists from "../job-lists";
 import { TextInput } from "../text-input";
 
 type TJobSearchProps = any;
 
 const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchPage, setSearchPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+
   const [countrySelected, setCountrySelected] = useState<DropdownOption | null>(
     countryOptions[0]
   );
@@ -34,19 +39,33 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
     300
   );
   const [debouncedDayPosted] = useDebounce(dayPostedSelected?.value, 300);
+  const [debouncedSearchPage] = useDebounce(searchPage, 300);
 
   const {
     data: jobSearchRes,
     error,
     isLoading,
+    mutate: syncJobSearch,
   } = useJobsSearchApiRequest(
     debouncedSearchTerm,
     String(debouncedCountryCode),
+    // debouncedSearchPage,
+    searchPage,
+    itemsPerPage,
     String(debouncedJobType),
     String(debouncedEmploymentType),
     Number(debouncedDayPosted)
   );
-  console.log("jobSearchRes", jobSearchRes);
+
+  //pagination
+  const pageCount = useMemo(() => {
+    return jobSearchRes?.count
+      ? Math.ceil(jobSearchRes?.count / itemsPerPage)
+      : 0;
+  }, [jobSearchRes]);
+  const handlePageClick = (event: any) => {
+    setSearchPage(() => event.selected + 1);
+  };
 
   return (
     <div className="z-10 flex flex-col">
@@ -98,40 +117,39 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
         </div>
       )}
       <div className="flex flex-col md:flex-row md:flex-wrap md:justify-between">
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : jobSearchRes?.results?.length ? (
-          jobSearchRes?.results?.map((job: any) => {
+        <JobLists
+          isLoading={isLoading}
+          items={jobSearchRes?.results?.map((job: any) => {
             const jobTags: (string | null)[] = [
               `${job?.contract_time ? job?.contract_time : null}`,
               `${job.category.tag ? job.category.tag : null}`,
               `${job.contract_type ? job.contract_type : null}`,
             ];
-            return (
-              <div className="w-full md:w-1/2 p-4" key={job?.id}>
-                <JobItem
-                  title={job?.title}
-                  description={job?.description}
-                  locationName={job?.location?.display_name}
-                  companyName={job?.company?.display_name}
-                  salaryMax={job?.salary_max}
-                  salaryMin={job?.salary_min}
-                  redirectUrl={job?.redirect_url}
-                  created={job?.created}
-                  jobTags={jobTags}
-                />
-              </div>
-            );
-          })
-        ) : !jobSearchRes?.results?.length && jobSearchRes !== undefined ? (
-          <p>No results found</p>
-        ) : error ? (
-          <p className="text-red">
-            There is something wrong when fetching the jobs
-          </p>
-        ) : (
-          <></>
-        )}
+            return {
+              title: job?.title,
+              description: job?.description,
+              locationName: job?.location?.display_name,
+              companyName: job?.company?.display_name,
+              salaryMax: job?.salary_max,
+              salaryMin: job?.salary_min,
+              redirectUrl: job?.redirect_url,
+              created: job?.created,
+              jobTags,
+            };
+          })}
+          error={error}
+        />
+        <ReactPaginate
+          containerClassName="flex w-full justify-around"
+          activeClassName="rounded-full bg-green-200"
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+        />
       </div>
     </div>
   );
