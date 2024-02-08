@@ -32,31 +32,30 @@ const Dropdown: React.FC<TDropdownProps> = ({
   openDropdownOnFocus = false,
 }) => {
   return (
-    <div className="">
-      <label htmlFor={name} className="">
+    <div className="my-4">
+      <label htmlFor={name} className="italic">
         {label} {required ? "*" : null}
       </label>
-
+      
       <Select
-        classNamePrefix=""
-        className=""
-        styles={{
-          option: () => ({}),
-          control: () => ({}),
-          singleValue: () => ({}),
-          indicatorsContainer: () => ({}),
+        classNamePrefix="custom-select"
+        classNames={{
+          container: () => `mt-2`,
+          singleValue: () => `!text-white`,
+          control: ({isFocused}) => `!bg-transparent rounded-md ${isFocused ? "border-gray-500" : "border-gray-300"}`
         }}
         value={selection}
         options={options.map(({ value, label }) => ({
           value,
           label,
         }))}
-        isDisabled={disabled === true}
+        isDisabled={disabled}
         onChange={onChange}
         ref={dropdownRef}
         openMenuOnFocus={openDropdownOnFocus}
         placeholder={dropdownPlaceholder}
         required={required}
+        isSearchable={false}
       />
     </div>
   );

@@ -14,7 +14,7 @@ const PaginationControl: React.FC<TPaginationControlProps> = ({
     <>
       <ReactPaginate
         containerClassName="flex w-full justify-around"
-        activeClassName="rounded-full bg-green-200"
+        activeClassName="rounded-full bg-gray-600"
         breakLabel="..."
         nextLabel="next >"
         onPageChange={handlePageClick}

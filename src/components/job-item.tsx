@@ -39,7 +39,7 @@ const JobItem: React.FC<TJobItemProps> = (job) => {
             .map((tag, index) => (
               <li
                 key={index}
-                className="capitalize inline-block leading-tight mr-4 mb-2 py-0.75 px-3 border border-gray-100 rounded-full text-xs text-dyn-text-strong bg-dyn-bg-100 dark:bg-dyn-bg-300"
+                className="capitalize inline-block leading-tight mr-4 mb-2 py-0.75 px-3 border border-gray-100 rounded-full text-xs text-dyn-text-strong"
               >
                 {tag}
               </li>
@@ -67,7 +67,7 @@ const JobItem: React.FC<TJobItemProps> = (job) => {
       )}
       {job.htmlDescriptionContent && (
         <div
-          className="text-sm mt-2 break-words prose prose-neutral prose-p: text-gray-100 prose-strong:text-gray-200 prose-headings:text-gray-200 prose-a:text-gray-200 md:prose-lg"
+          className="text-sm mt-2 break-words prose prose-neutral prose-p: text-gray-100 prose-strong:text-gray-200 prose-headings:text-gray-200 prose-a:text-gray-200 md:prose-sm"
           dangerouslySetInnerHTML={{ __html: job?.htmlDescriptionContent }}
         ></div>
       )}

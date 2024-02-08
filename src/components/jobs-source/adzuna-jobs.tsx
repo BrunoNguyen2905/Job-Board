@@ -83,30 +83,30 @@ const AdzunaJobSearch: React.FC<TJobSearchProps> = () => {
       {!!searchTerm && (
         <div className="w-full">
           <h1>Advanced filters:</h1>
-          <div className="flex flex-row justify-around">
+          <div className="flex flex-col">
             <Dropdown
-              label={"Country Code"}
+              label={"Country Code:"}
               name={"countryCode"}
               selection={countrySelected}
               options={countryOptions}
               onChange={setCountrySelected}
             />
             <Dropdown
-              label={"Job Type"}
+              label={"Job Type:"}
               name={"jobType"}
               selection={jobTypeSelected}
               options={jobTypeOptions}
               onChange={setJobTypeSelected}
             />
             <Dropdown
-              label={"Employment Type"}
+              label={"Employment Type:"}
               name={"employmentType"}
               selection={employmentTypeSelected}
               options={employmentTypeOptions}
               onChange={setEmploymentTypeSelected}
             />
             <Dropdown
-              label={"Last Posted"}
+              label={"Last Posted:"}
               name={"datePosted"}
               selection={dayPostedSelected}
               options={dayPostedOptions}

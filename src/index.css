@@ -6,3 +6,14 @@
   box-sizing: border-box;
   @apply bg-[#323242] text-global-text font-['Calibre-R'];
 }
+
+/* react-select */
+.custom-select__option:hover, .custom-select__option:active {
+  background-color: black; /* Change background color when hovered */
+  cursor: pointer; 
+}
+
+/* Styles for un-hovered options */
+.custom-select__option:not(:hover) {
+  background-color: #323242; /* Reset background color when not hovered */
+}
